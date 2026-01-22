@@ -68,6 +68,14 @@ class TaskManagerDB:
             cursor.close()
             connection.close()
 
+    def complete_task(self,task_id):
 
-
+        connection = self._get_connection()
+        if connection:
+            cursor = connection.cursor()
+            query = "UPDATE tasks SET status = 'done' WHERE id = %s"
+            cursor.execute(query,(task_id,))
+            connection.commit(),
+            cursor.close()
+            connection.close()
 

@@ -9,7 +9,8 @@ def menu():
     print("1. Ver tareas")
     print("2. Agregar tarea")
     print("3. Borrar tarea")
-    print("4. Salir")
+    print("4. Dar por conluida tarea")
+    print("5. Salir")
 
 def excecute():
 
@@ -23,7 +24,16 @@ def excecute():
             tasks = db.list_task()
             if not tasks:
                 print("No hay tareas pendientes. ¡Relájate! 😎")
-            for t in tasks: print(f"[{t['id']}] [[{t['title']}] - [{t['status']}] ({t['created_at']})") 
+            for t in tasks: 
+
+                emoji = '✅' 
+                status = t['status']
+
+                if status == 'pending':
+                    emoji = '⏳'
+                
+                    
+                print(f"[{t['id']}] [{emoji}][{t['title']}] - [{t['status']}] ({t['created_at']})") 
 
         elif opcion == "2":
             title = input("Titulo: ")
@@ -37,12 +47,16 @@ def excecute():
             print(f"Tarea {task_id} enviada a la papaelera.")
 
         elif opcion == "4":
+            task_id = input("ID de la tarea a borrar: ")
+            db.complete_task(task_id)
+            print(f"Tarea {task_id} marcada como completada ✅ ")
+
+        elif opcion == "5":
             print("¡Adiós! que tengas un día productivo .")
             break
 
         else:
             print("Opción no válida, intenta de nueveo.")
-
 if __name__ == "__main__":
     excecute()
 
